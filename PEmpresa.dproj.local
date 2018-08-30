@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899-12-30 00:00:00.000.074,C:\Desenvolvimento\DelphiXE5Projetos\CadastroUsuarios\UUsuarioMov.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.324,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\PEmpresa.dproj=C:\Users\leao\Documents\RAD Studio\Projects\Project3.dproj</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.584,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UEmpresaSeleciona.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.654,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UDMEmp.pas=</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.403,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UDMEmp.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.935,C:\Desenvolvimento\DelphiXE5Projetos\CadastroUsuarios\UUsuarioMov.pas=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.658,=C:\Users\leao\Documents\RAD Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.935,C:\Desenvolvimento\DelphiXE5Projetos\CadastroUsuarios\UUsuarioMov.dfm=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.348,C:\Desenvolvimento\DelphiXE5Projetos\CadastroUsuarios\UUsuario.pas=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.918,=C:\Users\leao\Documents\RAD Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.485,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UEmpresas.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.943,=C:\Desenvolvimento\DelphiXE5Projetos\FUNCOES\Ufuncoes.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.967,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit1.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.952,=C:\Desenvolvimento\DelphiXE5Projetos\FUNCOES\USeguro.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.348,C:\Desenvolvimento\DelphiXE5Projetos\CadastroUsuarios\UUsuario.dfm=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.362,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UDMEmp.dfm=C:\Users\leao\Documents\RAD Studio\Projects\Unit6.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.136,=C:\Users\leao\Documents\RAD Studio\Projects\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.455,=C:\Users\leao\Documents\RAD Studio\Projects\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.067,=C:\Users\leao\Documents\RAD Studio\Projects\Unit5.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.762,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UEmpresasMov.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.538,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UUsuarioMov.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.538,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.dfm=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UUsuarioMov.dfm</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.362,C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\UDMEmp.pas=C:\Users\leao\Documents\RAD Studio\Projects\Unit6.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.982,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.398,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas</Transaction>
+    <Transaction>1899-12-30 00:00:00.000.587,=C:\Desenvolvimento\DelphiXE5Projetos\CadastroEmpresa\Unit2.pas</Transaction>
+  </Transactions>
+</BorlandProject>

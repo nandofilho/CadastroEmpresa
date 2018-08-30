@@ -1,0 +1,494 @@
+unit UDMEmp;
+
+interface
+
+uses
+  SysUtils, Classes, DB, DBClient, MConnect, SConnect,Registry,windows,Dialogs,
+  Messages,  Graphics, Controls,
+  StdCtrls,ExtCtrls,ComCtrls, Datasnap.DSConnect, Data.DbxDatasnap,
+  IPPeerClient, Data.DBXCommon, Midaslib, Data.SqlExpr;
+
+type
+  TDMEmp = class(TDataModule)
+    TBGeral1: TClientDataSet;
+    TBGeral2: TClientDataSet;
+    TBEmpresas: TClientDataSet;
+    DSEmpresas: TDataSource;
+    QRSaida: TClientDataSet;
+    TBUsuario: TClientDataSet;
+    DSPConexao: TDSProviderConnection;
+    SQLConnection1: TSQLConnection;
+    DSUsuario: TDataSource;
+    QRGeral: TClientDataSet;
+    TBEmpresasid: TIntegerField;
+    TBEmpresasnome: TStringField;
+    TBEmpresasacesso: TStringField;
+    TBEmpresassenha: TStringField;
+    TBEmpresasendereco: TStringField;
+    TBEmpresasbairro: TStringField;
+    TBEmpresascidade: TStringField;
+    TBEmpresasestado: TStringField;
+    TBEmpresascep: TStringField;
+    TBEmpresastel: TStringField;
+    TBEmpresaspop3: TStringField;
+    TBEmpresasemail: TStringField;
+    TBEmpresaswebpage: TStringField;
+    TBEmpresasabv: TStringField;
+    TBEmpresassmtp: TStringField;
+    TBEmpresassitua: TStringField;
+    TBEmpresasNetUsuario: TStringField;
+    TBEmpresasNetSenha: TStringField;
+    TBSequencia: TClientDataSet;
+    TBSequenciacodemp: TIntegerField;
+    TBSequenciacodmov: TIntegerField;
+    TBSequenciatipo: TStringField;
+    TBSequencianroseq: TIntegerField;
+    TBSequenciaflag: TStringField;
+    TBEmpresasfoto: TBlobField;
+    QRUsuario: TClientDataSet;
+    DSUsuarioQ: TDataSource;
+    TBPessoa: TClientDataSet;
+    DSPessoa: TDataSource;
+    TBEmpresasnetporta: TStringField;
+    TBUsuariocodemp: TIntegerField;
+    TBUsuariocodpes: TIntegerField;
+    TBUsuarioid: TIntegerField;
+    TBUsuariocodsis: TIntegerField;
+    TBUsuarioacesso: TStringField;
+    TBUsuariosenha: TStringField;
+    TBUsuariositua: TStringField;
+    QRUsuariocodemp: TIntegerField;
+    QRUsuarioidpes: TIntegerField;
+    QRUsuarioidusu: TIntegerField;
+    QRUsuarionome: TStringField;
+    QRUsuariodatcad: TDateTimeField;
+    QRUsuariocpfcnpj: TStringField;
+    TBPessoacodemp: TIntegerField;
+    TBPessoaid: TIntegerField;
+    TBPessoanome: TStringField;
+    TBPessoadatcad: TDateTimeField;
+    TBPessoasitua: TStringField;
+    TBPessoacpfcnpj: TStringField;
+    QRUsuariosituap: TStringField;
+    QRUsuariosituau: TStringField;
+    TBUsuarionivel: TIntegerField;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+     pvEmpresa:integer;
+    { Private declarations }
+  Public
+   function  acessaPessoaMov(Sender:TObject;nCodEmp,nCodUsu:integer;cNome:string):Boolean;
+   function  adicionaPessoa(nCodEmp:integer;cNome:string):integer;
+   procedure adicionaUsuario(nCodEmp,nCodPes:integer;cAcesso,cSenha:string);
+   procedure criaNovoUsuario(nCodEmp:integer;cNome:string);
+   function  acessaPessoa(Sender:TObject;nCodEmp:integer;cNome:string;bSoUsuario:boolean):Boolean;
+   function  selecionaUsuarios(nCodEmp:integer;bSoUsuario:boolean):Boolean;
+   procedure TransfereDadosTabelas(cCodEmp,cArquivo:String;nTam:Integer);
+   procedure GeraDadosBasicosSistema(cCodEmp:String;PB1:TProgressBar);
+   procedure setEmpresa(x:integer);
+   Function  PegaEmpresa:Integer;
+   Function  PegaEmpresaS:String;
+   Function  LerRegistro(cCampo:String):String;
+   Procedure GravaRegistro(cCampo,cDados:String);
+   Function  UpCliDataSet(x:TClientDataSet):Boolean;
+   Function  PegaSequencia(nCodMov:integer;ChecaDevolucao:Boolean=False):Integer;
+   Function  ChecaEmpresa:String;
+   Function  TabelaFindKey(cFile:string;cDataSet:TClientDataSet;aCampos,aValor:array of String;bChecaEmpresa:Boolean=True):Boolean;
+   procedure HoraConexao(Agora:TDateTime;cMesagem,DBase,Usuario,senha,server:String);
+   { Public declarations }
+  end;
+
+var
+  DMEmp: TDMEmp;
+  oBCodEmp:String;
+  sqCidades:Integer=101;
+  const sqEmpresas=1;
+
+implementation
+
+uses UFuncoes,unit1,uUsuario,UUsuarioMov;
+
+{$R *.dfm}
+
+procedure TDMEmp.DataModuleCreate(Sender: TObject);
+begin
+DMEmp.SQLConnection1.Connected:=true;
+//DMGeral.SockFinanceiro.AppServer.MontaConexao('MSCONFIGURA');
+//DMA.SockFinanceiro.AppServer.MontaConexao('REALSTATE');
+//DMEmp.HoraConexao(Now,'Conexão inicial','rentix03','rentix03','rent987','mysql.rentix.com.br');
+DMEmp.HoraConexao(Now,'Conexão inicial','rentix_imobiliaria','rentix','Rentix*303290','localhost');
+//DMEmp.HoraConexao(Now,'Conexão inicial','marcioraposo','marcioraposo','Rent*987','192.168.0.1');
+end;
+
+
+procedure TDMEmp.HoraConexao(Agora:TDateTime;cMesagem,DBase,Usuario,senha,server:String);
+var
+Obj:TServerMethods1Client;
+begin
+Obj:=TServerMethods1Client.Create(DMEmp.SQLConnection1.DBXConnection);
+try
+Obj.Horaconexao(Agora,cMesagem,DBase,Usuario,senha,server);
+ Finally
+ Obj.Free;
+ End;
+end;
+
+
+Function TDMEmp.LerRegistro(cCampo:String):String;
+var
+RG:TRegistry;
+cMaquina:string;
+begin
+RG:=TRegistry.create;
+RG.RootKey:=HKEY_CURRENT_CONFIG;
+Result:='';
+if RG.OpenKeyReadOnly('SOFTWARE\RENTIX\'+cCampo) then
+   begin
+   if RG.ValueExists(cCampo) then
+      begin
+      Result:=RG.ReadString(cCampo);
+      Exit;
+      end;
+   end;
+end;
+
+Procedure TDMEmp.GravaRegistro(cCampo,cDados:String);
+var
+RG:TRegistry;
+cMaquina:string;
+begin
+RG:=TRegistry.create;
+RG.RootKey:=HKEY_CURRENT_CONFIG;
+if RG.Openkey('SOFTWARE\RENTIX\'+cCampo,True) then
+   begin
+   RG.WriteString(cCampo,cDados);
+   end
+else
+   begin
+   ShowMessage('Você não tem privilégios ara gravação registro');
+   end;
+end;
+
+Function TDMEmp.UpCliDataSet(x:TClientDataSet):Boolean;
+var
+nErros:integer;
+begin
+nErros:=0;
+Result:=True;
+if x.State in [dsInsert,dsEdit] then
+   x.Post;
+if x.ChangeCount>0 then
+   nErros:=x.ApplyUpdates(-1);
+if nErros>0 then
+   begin
+//   GravaLog(DMA.PegaCodigoUsuario,0,'98',x.CommandText+' ('+IntToStr(nErros)+')');
+   ShowMessage('Atenção : '+#13+'SQL: '+x.commandtext +#13 + 'Data set não atualizado');
+   Result:=False;
+   end;
+end;
+
+Function  TDMEmp.PegaSequencia(nCodMov:integer;ChecaDevolucao:Boolean=False):Integer;
+begin
+if not DMEmp.TabelaFindKey('sequencia',DMEmp.TBSequencia,['codmov','tipo'],[IntToStr(nCodMov),'S']) then
+       begin
+       DMEmp.TBSequencia.Append;
+       DMEmp.TBSequenciaCodEmp.Value:=DMEmp.PegaEmpresa;
+       DMEmp.TBSequenciaCodMov.Value:=nCodMov;
+       DMEmp.TBSequenciaTipo.Value:='S';
+       Result:=1;
+       DMEmp.TBSequenciaNroSeq.Value:=2;
+       DMEmp.TBSequencia.Post;
+       DMEmp.UPCliDataSet(DMEmp.TBSequencia);
+       exit;
+       end;
+Result:=DMEmp.TBSequenciaNroSeq.Value;
+DMEmp.TBSequencia.Edit;
+DMEmp.TBSequenciaNroSeq.Value:=DMEmp.TBSequenciaNroSeq.Value+1;
+DMEmp.TBSequenciaFlag.Value:='0';
+DMEmp.TBSequencia.Post;
+DMEmp.UPCliDataSet(DMEmp.TBSequencia);
+end;
+
+Function TDMEmp.PegaEmpresaS:String;
+Begin
+Result:=IntToStr(pvEmpresa);
+End;
+
+procedure TDMEmp.SetEmpresa(x:integer);
+Begin
+pvEmpresa:=x;
+End;
+
+Function TDMEmp.PegaEmpresa:Integer;
+Begin
+Result:=pvEmpresa;
+End;
+
+procedure TDMEmp.GeraDadosBasicosSistema(cCodEmp:String;PB1:TProgressBar);
+var
+nTam,n:Integer;
+aTabelas:array[0..100] of String;
+begin
+if cCodEmp='' then
+   Begin
+   ShowMessage('Código empresa em branco');
+   Exit;
+   End;
+ATabelas[01]:='AGENTES';
+ATabelas[02]:='CATEGORIAS';
+ATabelas[03]:='';
+ATabelas[04]:='COMUNICACAOASSUNTOS';
+ATabelas[05]:='CONSTRUTORES';
+ATabelas[06]:='';
+ATabelas[07]:='EQUIPES';
+ATabelas[08]:='ESTOQUEPLACAS';
+ATabelas[10]:='FAIXASCOMISSAO';
+ATabelas[11]:='GRUPOS';
+ATabelas[12]:='HISTBAN';
+ATabelas[13]:='IDIOMAS';
+ATabelas[14]:='LOCAIS';
+ATabelas[15]:='LOCALIZACAO';
+ATabelas[16]:='MENSAGEMSPADRAO';
+ATabelas[17]:='MENSAGENS';
+ATabelas[18]:='MOTIVOS';
+ATabelas[19]:='NOTAPARAMETROS';
+ATabelas[20]:='OPERACOESCONTA';
+ATabelas[21]:='OPERACOESITENS';
+ATabelas[22]:='ORIGEMCONTATO';
+ATabelas[23]:='PARAMETROS';
+ATabelas[24]:='PARAMETROSCONTA';
+ATabelas[25]:='PERMISSOESGRUPO';
+ATabelas[26]:='PERMISSOESNIVEL';
+ATabelas[27]:='PROBLEMATIPO';
+ATabelas[28]:='SISTEMA';
+ATabelas[29]:='SISTEMAGRUPO';
+ATabelas[30]:='TABDESCRICAO';
+ATabelas[31]:='TABELACOMISSOES';
+ATabelas[32]:='TABFALHAACERTO';
+ATabelas[34]:='TABSITUAPROPOSTA';
+ATabelas[35]:='SISTEMAOBRAS';
+ATabelas[36]:='TABPOSICAO';
+ATabelas[37]:='TABVALORES';
+ATabelas[38]:='TBAUXPROPOSTA';
+ATabelas[39]:='TELEMARKETING';
+ATabelas[40]:='TERCEIROS';
+ATabelas[41]:='TERCEIROTROCAS';
+ATabelas[42]:='TEXTOPADRAO';
+ATabelas[43]:='TIPO_DOCUMENTO';
+ATabelas[44]:='TIPOCLIENTE';
+ATabelas[45]:='TIPOCOMPOSICAOIDM';
+ATabelas[46]:='TIPOCOMPOSICAOOPCIDM';
+ATabelas[47]:='TIPOCOMPOSICOES';
+ATabelas[48]:='TIPOCOPOSICOESOPC';
+ATabelas[49]:='TIPOCORRETOR';
+ATabelas[50]:='TIPODEBITOS';
+ATabelas[51]:='TIPOENDERECO';
+ATabelas[52]:='TIPOGERENCIAS';
+ATabelas[53]:='TIPOIMAGENS';
+ATabelas[54]:='TIPOIMOVEL';
+ATabelas[55]:='TIPOOPCOES';
+ATabelas[56]:='TIPOOPERACAO';
+ATabelas[57]:='TIPOPLACAS';
+ATabelas[58]:='TIPORECLAMACOES';
+ATabelas[59]:='TIPORECLAMACONSTRUTOR';
+ATabelas[60]:='TIPOTAXAS';
+ATabelas[61]:='TIPOTELEFONE';
+ATabelas[62]:='TIPOUNIDADE';
+ATabelas[63]:='TOTALIZAVENDAS';
+ATabelas[64]:='CLIENTEBASE';
+ATabelas[65]:='CLIENTECOMPLE';
+ATabelas[66]:='CLIENTEENDERECO';
+ATabelas[67]:='CLIENTEFISICO';
+ATabelas[68]:='CLIENTEFONE';
+ATabelas[69]:='CLIENTEJURIDICO';
+ATabelas[70]:='CLIENTESSELECIONADOS';
+ATabelas[71]:='CLIENTESTIPO';
+ATabelas[72]:='CLIENTEUSUARIO';
+ATabelas[73]:='CLIENTEUSUARIOPROG';
+nTam:=73;
+PB1.Max:=nTam;
+PB1.Visible:=True;
+for n:=1 to nTam do
+    Begin
+    PB1.Position:=n;
+    if ATabelas[n]<>'' then
+       TransfereDadosTabelas(cCodEmp,ATabelas[n],nTam);
+    end;
+PB1.Visible:=False;
+end;
+
+procedure TDMEmp.TransfereDadosTabelas(cCodEmp,cArquivo:String;nTam:Integer);
+var
+n:integer;
+x,cVirgula,cCampo:String;
+Begin
+DMEmp.QRGeral.Close;
+DMEmp.QRGeral.CommandText:='Select * from '+cArquivo+' where codemp='+cCodEmp;
+DMEmp.QRGeral.Open;
+if (DMEmp.QRGeral.RecordCount>0) then
+    Begin
+    DMEmp.QRGeral.Close;
+    Exit;
+    End;
+For n:=0 to DMEmp.QRGeral.FieldCount-1 do
+    Begin
+//
+//    DMA.TBGeral1.FieldDefs.Update;
+//
+    if (DMEmp.QRGeral.FieldDefs.Items[n].Name='CODEMP') then
+       cCampo:=cCampo+cVirgula+cCodEmp
+    else
+       cCampo:=cCampo+cVirgula+DMEmp.QRGeral.FieldDefs.Items[n].Name;
+    cVirgula:=',';
+    End;
+cCampo:='('+cCampo+')';
+x:='Insert into  '+cArquivo;
+x:=x+' Select '+cCampo+' From '+cArquivo+' where codemp='+DMEmp.PegaEmpresaS;
+DMEmp.QRGeral.FieldDefs.Clear;
+DMEmp.QRGeral.Close;
+DMEmp.QRGeral.CommandText:=x;
+DMEmp.QRGeral.Execute;
+End;
+
+Function TDMEmp.ChecaEmpresa:String;
+Begin
+Result:=' CODEMP='+DMEmp.PegaEmpresaS;
+End;
+
+procedure TDMEmp.criaNovoUsuario(nCodEmp: integer; cNome: string);
+var
+nCodPes:integer;
+bVazio:boolean;
+begin
+bVazio:= not DMEmp.selecionaUsuarios(nCodEmp,true) ;
+if bVazio then
+   begin
+   TabelaFindKey('pessoa',DMEmp.TBPessoa,['ID'],['-9898989']);
+   TabelaFindKey('pessoausuario',DMEmp.TBusuario,['ID'],['-9898989']);
+   nCodPes:=DMEmp.AdicionaPessoa(nCodEmp,cNome);
+   DMEmp.AdicionaUsuario(nCodEmp,nCodPes,'acesso','acesso');
+   DMEmp.TBPessoa.Close;
+   DMEmp.TBUsuario.Close;
+   end;
+
+end;
+
+function TDMEmp.AdicionaPessoa(nCodEmp:integer;cNome:string):integer;
+begin
+DMEmp.TBPessoa.Append;
+DMEmp.TBPessoaCodEmp.Value:=nCodEmp;
+DMEmp.TBPessoaID.Value:=pegasequencia(500);
+DMEmp.TBPessoaNOME.Value:=cNome;
+DMEmp.TBPessoaDatcad.Value:=pegadata;
+DMEmp.TBPessoaSitua.Value:='N';
+DMEmp.TBPessoa.Post;
+upclidataset(DMEmp.TBPessoa);
+result:=DMEmp.TBPessoaID.Value;
+end;
+
+procedure TDMEmp.AdicionaUsuario(nCodEmp,nCodPes:integer;cAcesso,cSenha:string);
+begin
+DMEmp.TBUsuario.Append;
+DMEmp.TBUsuarioCodEmp.Value:=nCodEmp;
+DMEmp.TBUsuarioID.Value:=pegasequencia(525);
+DMEmp.TBUsuarioCODPES.Value:=nCodPes;
+DMEmp.TBUsuarioCODSIS.Value:=1;
+DMEmp.TBUsuarioacesso.Value:=cAcesso;
+DMEmp.TBUsuariosenha.Value:=cSenha;
+DMEmp.TBUsuarioSitua.Value:='N';
+DMEmp.TBUsuario.Post;
+upclidataset(DMEmp.TBUsuario);
+end;
+
+
+Function TDMEmp.TabelaFindKey(cFile:string;cDataSet:TClientDataSet;aCampos,aValor:array of String;bChecaEmpresa:Boolean=True):Boolean;
+var
+OldText:string;
+nTam,ni:word;
+x:string;
+cComple:string;
+begin
+cDataSet.Close;
+OldText:=cDataSet.CommandText;
+X:='Select * FROM '+cFile;
+if bChecaEmpresa then
+   begin
+   x:=x+' where '+DMEmp.ChecaEmpresa;
+   cComple:=' and  ';
+   end
+else
+   cComple:=' where ';
+nTam:=Length(ACampos);
+if nTam>0 then
+   For ni:=0 to (nTam-1) do
+       Begin
+       if (aCampos[ni]<>'') and (aValor[ni]<>'') then
+           begin
+           X:=X+cComple+aCampos[ni]+'='''+TrocaTexto(aValor[ni],'''','')+'''';
+           cComple:=' and ';
+           end;
+       End;
+cDataSet.CommandText:=X;
+cDataSet.Open;
+if cDataSet.RecordCount=0 then
+   Result:=false
+else
+   Result:=true;
+end;
+
+function TDMEmp.AcessaPessoa(Sender:TObject;nCodEmp:integer;cNome:string;bSoUsuario:boolean):Boolean;
+var
+obj:TFUsuario;
+begin
+DMEmp.selecionaUsuarios(nCodEmp,bSoUsuario);
+obj.Caption:='Pessoas cadastradas ('+cNome+')';
+obj:=TFUsuario.Create(Self);
+try
+Obj.ShowModal;
+finally
+end;
+end;
+
+function TDMEmp.AcessaPessoaMov(Sender:TObject;nCodEmp,nCodUsu:integer;cNome:string):Boolean;
+var
+obj:TFUsuarioMov;
+begin
+TabelaFindKey('pessoausuario',DMEmp.TBusuario,['ID'],[nCodUsu]);
+obj.Caption:='Usuário cadastrado';
+Obj.EdNome.Text  :=cNome;
+Obj.EdAcesso.Text:=DMEmp.TBusuarioAcesso.Value;
+Obj.EdSenha.Text:=DMEmp.TBusuarioSenha.Value;
+obj:=TFUsuarioMov.Create(Self);
+try
+Obj.ShowModal;
+if obj.Tag=1 then
+   begin
+   DMEmp.TBusuario.Edit;
+   DMEmp.TBusuarioAcesso.Value:=Obj.EdAcesso.Text;
+   DMEmp.TBusuarioSenha.Value :=Obj.EdSenha.Text;
+   DMEmp.TBusuario.Post;
+   DMEmp.UpCliDataSet(DMEmp.TBusuario);
+   end;
+finally
+end;
+end;
+
+function TDMEmp.selecionaUsuarios(nCodEmp:integer;bSoUsuario:boolean):Boolean;
+var
+x:string;
+begin
+result:=false;
+x:=  ' select p.codemp,p.id as idpes,p.nome,p.datcad,p.situa as situap,p.cpfcnpj,';
+x:=x+' u.codsis,u.id as idusu,u.acesso,u.senha,u.situa as situau';
+x:=x+' from pessoa p';
+x:=x+' left outer join pessoausuario u on u.codemp=p.codemp and u.codpes=p.id';
+x:=x+' where p.codemp='+intToStr(nCodEmp);
+if bSoUsuario then
+   x:=x+' and u.situa=''N''';
+DMEMP.QRUsuario.Close;
+DMEMP.QRUsuario.CommandText:=x;
+DMEMP.QRUsuario.Open;
+result:=(DMEMP.QRUsuario.RecordCount>0);
+end;
+
+end.

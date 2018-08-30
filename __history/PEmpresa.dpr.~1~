@@ -1,0 +1,14 @@
+program PEmpresa;
+
+uses
+  Vcl.Forms,
+  UDMEmp in 'UDMEmp.pas' {DataModule6: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TDataModule6, DataModule6);
+  Application.Run;
+end.

@@ -1,0 +1,137 @@
+object FEmpresaAcesso: TFEmpresaAcesso
+  Left = 0
+  Top = 0
+  Caption = 'Acesso:'
+  ClientHeight = 198
+  ClientWidth = 421
+  FormFactor.Width = 1920
+  FormFactor.Height = 1080
+  FormFactor.Devices = [dkDesktop]
+  OnCreate = FormCreate
+  DesignerMobile = False
+  DesignerWidth = 0
+  DesignerHeight = 0
+  DesignerDeviceName = ''
+  DesignerOrientation = 0
+  DesignerOSVersion = ''
+  object Label1: TLabel
+    Height = 17.000000000000000000
+    Position.X = 35.000000000000000000
+    Position.Y = 72.000000000000000000
+    Text = 'Usu'#225'rio'
+    TextAlign = taTrailing
+    Width = 114.000000000000000000
+  end
+  object Label2: TLabel
+    Height = 16.000000000000000000
+    Position.X = 33.000000000000000000
+    Position.Y = 98.000000000000000000
+    Text = 'Senha usu'#225'rio'
+    TextAlign = taTrailing
+    Width = 115.000000000000000000
+  end
+  object EdUsuario: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 2
+    Position.X = 156.000000000000000000
+    Position.Y = 67.000000000000000000
+    Width = 115.000000000000000000
+    Height = 22.000000000000000000
+    KillFocusByReturn = False
+  end
+  object EdSenhaU: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 3
+    Password = True
+    Position.X = 156.000000000000000000
+    Position.Y = 96.000000000000000000
+    Width = 119.000000000000000000
+    Height = 22.000000000000000000
+    KillFocusByReturn = False
+  end
+  object Button1: TButton
+    Height = 35.000000000000000000
+    Position.X = 96.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 4
+    Text = 'Confirma'
+    Width = 111.000000000000000000
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Height = 34.000000000000000000
+    Position.X = 233.000000000000000000
+    Position.Y = 144.000000000000000000
+    TabOrder = 5
+    Text = 'Cancela'
+    Width = 102.000000000000000000
+    OnClick = Button2Click
+  end
+  object Label3: TLabel
+    Height = 15.000000000000000000
+    Position.X = 8.000000000000000000
+    Position.Y = 14.000000000000000000
+    Text = 'C'#243'digo acesso empresa'
+    TextAlign = taTrailing
+    Width = 146.000000000000000000
+  end
+  object Label4: TLabel
+    Height = 15.000000000000000000
+    Position.X = -56.000000000000000000
+    Position.Y = 45.000000000000000000
+    Text = 'Senha empresa'
+    TextAlign = taTrailing
+    Width = 210.000000000000000000
+  end
+  object EdSenhaE: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 8
+    Password = True
+    Position.X = 157.000000000000000000
+    Position.Y = 38.000000000000000000
+    Width = 115.000000000000000000
+    Height = 22.000000000000000000
+    KillFocusByReturn = False
+  end
+  object EdEmpresa: TEdit
+    Touch.InteractiveGestures = [igLongTap, igDoubleTap]
+    TabOrder = 9
+    Position.X = 157.000000000000000000
+    Position.Y = 9.000000000000000000
+    Width = 115.000000000000000000
+    Height = 22.000000000000000000
+    KillFocusByReturn = False
+  end
+  object ChkEmpresa: TCheckBox
+    Height = 19.000000000000000000
+    Position.X = 294.000000000000000000
+    Position.Y = 11.000000000000000000
+    TabOrder = 10
+    Text = 'Guarda informa'#231#227'o'
+    Width = 120.000000000000000000
+  end
+  object ChkSenhaE: TCheckBox
+    Height = 19.000000000000000000
+    Position.X = 294.000000000000000000
+    Position.Y = 41.000000000000000000
+    TabOrder = 11
+    Text = 'Guarda informa'#231#227'o'
+    Width = 120.000000000000000000
+  end
+  object ChkUsuario: TCheckBox
+    Height = 19.000000000000000000
+    Position.X = 294.000000000000000000
+    Position.Y = 70.000000000000000000
+    TabOrder = 12
+    Text = 'Guarda informa'#231#227'o'
+    Width = 120.000000000000000000
+  end
+  object ChkSenhaU: TCheckBox
+    Height = 19.000000000000000000
+    Position.X = 295.000000000000000000
+    Position.Y = 97.000000000000000000
+    TabOrder = 13
+    Text = 'Guarda informa'#231#227'o'
+    Width = 120.000000000000000000
+  end
+end

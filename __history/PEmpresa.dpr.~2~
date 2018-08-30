@@ -1,0 +1,20 @@
+program PEmpresa;
+
+uses
+  Vcl.Forms,
+  UEmpresas in 'UEmpresas.pas' {FEmpresas},
+  UEmpresaSeleciona in 'UEmpresaSeleciona.pas' {FSelecionaEmpresa},
+  UEmpresasMov in 'UEmpresasMov.pas' {FEmpresasMov},
+  UDMEmp in 'UDMEmp.pas' {DMEmp: TDataModule};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFEmpresas, FEmpresas);
+  Application.CreateForm(TFSelecionaEmpresa, FSelecionaEmpresa);
+  Application.CreateForm(TFEmpresasMov, FEmpresasMov);
+  Application.CreateForm(TDMEmp, DMEmp);
+  Application.Run;
+end.
